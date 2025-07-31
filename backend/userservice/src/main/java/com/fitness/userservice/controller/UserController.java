@@ -1,6 +1,7 @@
 package com.fitness.userservice.controller;
 
 import com.fitness.userservice.dto.LoginDTO;
+import com.fitness.userservice.dto.LoginResponse;
 import com.fitness.userservice.dto.RegisterRequest;
 import com.fitness.userservice.dto.UserResponse;
 import com.fitness.userservice.entity.User;
@@ -46,8 +47,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> signin(@RequestBody LoginDTO loginDTO){
-        String login = authService.login(loginDTO);
+    public ResponseEntity<LoginResponse> signin(@RequestBody LoginDTO loginDTO){
+        LoginResponse login = authService.login(loginDTO);
         return new ResponseEntity<>(login, HttpStatus.OK);
     }
 

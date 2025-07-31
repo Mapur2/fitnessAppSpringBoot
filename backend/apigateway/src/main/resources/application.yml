@@ -2,27 +2,38 @@ spring :
   application :
     name : apigateway
   cloud:
+    config:
+      enabled: false
     gateway:
         routes:
           - id: user-service
             uri: lb://user-service #lb means load balancer
             predicates:
               - Path=/api/users/**
-            filters:
-              - AuthencationFilter
 
           - id: activity-service
             uri: lb://ACTIVITY-SERVICE
             predicates:
               - Path=/api/activities/**
-            filters:
-              - AuthencationFilter
+
           - id: ai-service
             uri: lb://AI-SERVICE
             predicates:
               - Path=/api/recommendations/**
-            filters:
-              - AuthencationFilter
+        globalcors:
+           corsConfigurations:
+            '[/**]':
+              allowedOrigins: "http://localhost:5173"
+              allowedMethods:
+                - GET
+                - POST
+                - PUT
+                - DELETE
+                - OPTIONS
+              allowedHeaders: "*"
+              allowCredentials: true
+
+
 server:
   port: 8079
 

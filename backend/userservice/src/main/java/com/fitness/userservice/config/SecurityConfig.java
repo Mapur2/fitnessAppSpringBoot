@@ -52,15 +52,15 @@ public class SecurityConfig {
                     authorize.requestMatchers(HttpMethod.OPTIONS,"/").permitAll();
                 })
                 .httpBasic(Customizer.withDefaults());
-        httpSecurity.cors((cors)->cors.configurationSource(
-                request -> {
-                    CorsConfiguration configuration=new CorsConfiguration();
-                    configuration.setAllowedOrigins(List.of("https://localhost:5173"));
-                    configuration.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
-                    configuration.setAllowedHeaders(List.of("*"));
-                    return  configuration;
-                }
-        ));
+//        httpSecurity.cors((cors)->cors.configurationSource(
+//                request -> {
+//                    CorsConfiguration configuration=new CorsConfiguration();
+//                    configuration.setAllowedOrigins(List.of("http://localhost:5173/"));
+//                    configuration.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
+//                    configuration.setAllowedHeaders(List.of("*"));
+//                    return  configuration;
+//                }
+//        ));
         httpSecurity.exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(jwtAuthenticationEntryPoint));
         httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return  httpSecurity.build();

@@ -20,6 +20,9 @@ public class MemberDetails implements UserDetails {
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + member.getRole().name()));
     }
 
+    public String getId(){
+        return member.getId();
+    }
     @Override
     public String getPassword() {
         return member.getPassword();

@@ -2,6 +2,7 @@ package com.fitness.userservice.service;
 
 import com.fitness.userservice.config.JwtTokenProvider;
 import com.fitness.userservice.dto.LoginDTO;
+import com.fitness.userservice.dto.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,18 +21,22 @@ public class AuthService {
         return provider.validateToken(token);
     }
 
-    public String login(LoginDTO l){
+    public LoginResponse login(LoginDTO l) {
         System.out.println("in auth service");
-        Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(l.getEmail(),l.getPassword()));
 
-
-        //SecurityContextHolder is used to allow the rest of the application to know that the use is logged in and use the data
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(l.getEmail(), l.getPassword())
+        );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        //generate the toke based on username
+        // generate token
         String token = provider.generateToken(authentication);
-        return token;
+
+        MemberDetails userDetails = (MemberDetails) authentication.getPrincipal();
+        String userId = String.valueOf(userDetails.getId());
+
+        return new LoginResponse(token, userId);
     }
 
 }
